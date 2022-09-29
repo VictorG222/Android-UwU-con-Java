@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "226232360568",
+    "project_id": "android9-3-9c280",
+    "storage_bucket": "android9-3-9c280.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226232360568:android:f653d51919d7fe5160178d",
+        "android_client_info": {
+          "package_name": "com.victor.app193"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "226232360568-0kbqaug5jsvdu6f374e1ou2m5kl4diho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhevxMOUHzYVy19ZN38YgW2kMuhT_8m3I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "226232360568-0kbqaug5jsvdu6f374e1ou2m5kl4diho.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
