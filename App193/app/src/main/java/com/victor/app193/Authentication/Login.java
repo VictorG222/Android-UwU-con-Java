@@ -25,10 +25,10 @@ public class Login extends AppCompatActivity {
         textoCorreo = findViewById(R.id.correo);
         textoPassword = findViewById(R.id.password);
 
-//        login.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {metodoExplicito(); }
-//        });
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {login(); }
+        });
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +36,11 @@ public class Login extends AppCompatActivity {
                 metodoExplicito();
             }
         });
+    }
+
+    private void login() {
+        String correo = textoCorreo.getText().toString();
+        String password = textoPassword.getText().toString();
     }
 
     private void metodoExplicito(){
