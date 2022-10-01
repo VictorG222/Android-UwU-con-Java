@@ -49,6 +49,8 @@ public class Register extends AppCompatActivity {
 
         if (pass.length() <= 6){
             Toast.makeText(this, "Nonononononono!!!!! "+ pass, Toast.LENGTH_SHORT).show();
+
+
         }
         boolean validPassword = isValidPassword(pass,regex);
         Toast.makeText(this, validPassword + " " + pass, Toast.LENGTH_SHORT).show();
