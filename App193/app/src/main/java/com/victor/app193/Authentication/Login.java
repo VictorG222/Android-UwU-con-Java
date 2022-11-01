@@ -3,11 +3,14 @@ package com.victor.app193.Authentication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +26,7 @@ public class Login extends AppCompatActivity {
 
     Button log, register, restorePass;
     EditText textoCorreo, textoPassword;
+    Switch boolPass;
 
     FirebaseAuth mAuth;
 
@@ -31,12 +35,30 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
+
         log = findViewById(R.id.btnLogin);
         register = findViewById(R.id.btnRegistro);
         restorePass = findViewById(R.id.btnChangePass);
         textoCorreo = findViewById(R.id.LogCorreo);
         textoPassword = findViewById(R.id.LogPass);
+        boolPass = findViewById(R.id.stwRemember);
         mAuth = FirebaseAuth.getInstance();
+
+        SharedPreferences sharedPref = this.getSharedPreferences("userInfo",Context.MODE_PRIVATE);
+
+        Boolean guardarPass = sharedPref.getBoolean("uCheck",false);
+        String uEmail = sharedPref.getString("uEmail",  "");
+        String uPass = sharedPref.getString("uPass",  "");
+
+        if (guardarPass){
+            textoCorreo.setText(uEmail);
+            textoPassword.setText(uPass);
+            boolPass.setChecked(guardarPass);
+        }else{
+            boolPass.setChecked(guardarPass);
+        }
+
 
         log.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +85,7 @@ public class Login extends AppCompatActivity {
     private void log() {
         String email = textoCorreo.getText().toString();
         String pass = textoPassword.getText().toString();
+        Boolean guardarPass = boolPass.isChecked();
 
         mAuth.signInWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -71,10 +94,10 @@ public class Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            loginUI(user);
+                            loginUI(user, guardarPass, pass, email);
                         } else {
-                            // If sign in fails, d isplay a message to the user.
-                            loginUI(null);
+                            // If sign in fails, display a message to the user.
+                            loginUI(null, guardarPass, pass, email);
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -85,8 +108,26 @@ public class Login extends AppCompatActivity {
                 });
     }
 
-    private void loginUI(FirebaseUser user) {
+    private void loginUI(FirebaseUser user, Boolean guardarPass, String pass, String email) {
         if (user != null){
+            if (guardarPass){
+                SharedPreferences sharedPref = this.getSharedPreferences(
+                        "userInfo", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("uPass", pass);
+                editor.putString("uEmail", email);
+                editor.putBoolean("uCheck", guardarPass);
+                editor.apply();
+            }else{
+                SharedPreferences sharedPref = this.getSharedPreferences(
+                        "userInfo", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("uPass", "");
+                editor.putString("uEmail", "");
+                editor.putBoolean("uCheck", guardarPass);
+                editor.apply();
+            }
+
             goToHome();
         }
     }
